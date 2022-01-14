@@ -1,0 +1,46 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{karnaugh-map}
+\usepackage{tikz}
+
+\title{Assignment 1 | FPGA Lab}
+\author{U Venkata Sai Anand Mohan}
+\date{January 2022}
+
+\begin{document}
+\maketitle
+
+\section{Question}
+
+Reduce the following Boolean Expression to its simplest form using K-Map :
+
+    $F(X,Y,Z,W) = \sum(2,6,7,8,9,10,11,13,14,15)$
+
+\section{Solution}
+
+\subsection{KMAP Implementation}
+Given SOP expression  can be minimized using a KMap (Figure 1). 
+
+\begin{figure}[!ht]
+\centering
+\resizebox{\columnwidth}{!}
+{
+\begin{karnaugh-map}[4][4][1][ZW][XY]
+    \minterms{2,6,7,8,9,10,11,13,14,15}
+    \maxterms{0,1,3,4,5,12}
+    \implicant{2}{10}
+    \implicant{7}{14}
+    \implicant{13}{11}
+    \implicant{8}{10}
+   
+    \end{karnaugh-map}
+}
+\caption{SOP for F}
+\label{fig:kmap_F_SOP}
+\end{figure}
+
+\subsection{Minimized SOP Expression}
+G = $Z.\bar{W} + Y.Z + X\bar{Y} + X.W$
+
+\end{document}
