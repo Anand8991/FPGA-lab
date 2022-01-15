@@ -1,7 +1,5 @@
-echo "# FPGA-lab" >> README.md
-git init
-git add README.md
-git commit -m "first commit"
-git branch -M main
-git remote add origin https://github.com/Anand8991/FPGA-lab.git
-git push -u origin main
+# FPGA-Lab
+Repo for EE5811 (FPGA Lab) Course | IIT Hyderabad
+
+1. Product of Sum expression for given truth table & C Coding
+
