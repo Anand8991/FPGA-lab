@@ -2,10 +2,21 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{karnaugh-map}
-\usepackage{tikz}
+\usetikzlibrary{calc}
+\usepackage{placeins}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{multicol}
+\usepackage{amssymb}
+\usepackage[framed]{matlab-prettifier}
+\usepackage{graphicx}
+\usepackage[margin=0.75in]{geometry}
+\usepackage{enumerate}
+\usepackage{circuitikz}
 
 \title{Assignment 1 | FPGA Lab}
-\author{U Venkata Sai Anand Mohan}
+\author{U Venkata Sai Anand Mohan(EE21MTECH14022)}
 \date{January 2022}
 
 \begin{document}
@@ -15,7 +26,7 @@
 
 Reduce the following Boolean Expression to its simplest form using K-Map :
 
-    $F(X,Y,Z,W) = \sum(2,6,7,8,9,10,11,13,14,15)$
+    F(X,Y,Z,W) = $ \sum(2,6,7,8,9,10,11,13,14,15)$
 
 \section{Solution}
 
@@ -39,8 +50,75 @@ Given SOP expression  can be minimized using a KMap (Figure 1).
 \caption{SOP for F}
 \label{fig:kmap_F_SOP}
 \end{figure}
+\FloatBarrier
 
 \subsection{Minimized SOP Expression}
-G = $Z.\bar{W} + Y.Z + X\bar{Y} + X.W$
+F = $Z.\overline{W} + Y.Z + X\overline{Y} + X.W$
+
+\subsection{NAND Logic Implementation}
+
+To implement it using NAND Logic, we convert the simplified SOP expression to suite the NAND logic, which gives :
+
+\begin{center}
+  $F = \overline{\overline{Z.\overline{W} + Y.Z + X\overline{Y} + X.W}}$\\
+   \vspace{5pt}
+   $F = \overline{\overline{Z.\overline{W}} . \overline{Y.Z} . \overline{X\overline{Y}} . \overline{ X.W}}$\\
+   \vspace{5pt}
+   
+\end{center}
+The last expression can be implemented using only two input-NAND Gates.
+
+\begin{center}
+\begin{circuitikz}
+\draw
+(0,0)node[nand port](mynand1){}
+
+(0,4)node[nand port](mynand2){}
+
+(2,0)node[nand port](mynand3){}
+
+(2,2)node[nand port](mynand4){}
+
+(2,4)node[nand port](mynand5){}
+
+(2,6)node[nand port](mynand6){}
+
+(4,5)node[nand port](mynand7){}
+
+(4,1)node[nand port](mynand8){}
+
+(6,5)node[nand port](mynand9){}
+
+(6,1)node[nand port](mynand10){}
+
+(8,3)node[nand port](mynand11){}
+
+(mynand1.out)|-(mynand3.in 1)
+(mynand2.out)|-(mynand5.in 2)
+(mynand1.in 1)|-(mynand1.in 2)
+(mynand2.in 1)|-(mynand2.in 2)
+(mynand6.out)|-(mynand7.in 1)
+(mynand5.out)|-(mynand7.in 2)
+(mynand4.out)|-(mynand8.in 1)
+(mynand3.out)|-(mynand8.in 2)
+(mynand9.in 1)|-(mynand9.in 2)
+(mynand10.in 1)|-(mynand10.in 2)
+(mynand7.out)|-(mynand9.in 1)
+(mynand8.out)|-(mynand10.in 1)
+(mynand9.out)|-(mynand11.in 1)
+(mynand10.out)|-(mynand11.in 2)
+
+(mynand1.in 1) node (A1)     [anchor=east]           {Y}
+(mynand2.in 1) node (A2)     [anchor=east]           {W}
+(mynand3.in 2) node (A3)     [anchor=east]           {X}
+(mynand4.in 1) node (A4)     [anchor=east]           {Z}
+(mynand4.in 2) node (A5)     [anchor=east]           {Y}
+(mynand5.in 1) node (A6)     [anchor=east]           {Z}
+(mynand6.in 1) node (A7)     [anchor=east]           {X}
+(mynand6.in 2) node (A8)     [anchor=east]           {W}
+(mynand11.out) node (A9)     [anchor=east, xshift=0.5cm]           {F};
+
+\end{circuitikz}
+\end{center}
 
 \end{document}
